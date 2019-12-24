@@ -233,31 +233,46 @@ def load_road_and_libraries_data(a_file_name):
     return data
 
 
+def rangoli(a_size):
+    a_latter = ord('a')
+    result = [[] for i in range(a_size*2-1)]
+    line = [chr(i) for i in range(a_latter, a_latter + a_size, 1)]
+    line = line[::-1] + line[1:]
+    result[a_size-1] = line[:]
+    offset = 1
+    middle = a_size - 1
+    cm = a_size -1
+    width = (a_size*2-1) + (a_size*2-2)
+    while len(line) > 1:
+        line.pop(middle)
+        line.pop(middle-1)
+        result[cm-offset] = line[:]
+        result[cm + offset] = line[:]
+        middle = middle - 1
+        offset = offset + 1
+
+    # format
+    output = []
+    for l in result:
+        output.append(format(l, width))
+    return output
+
+
+def format(a_list, a_size):
+    text = ""
+    for l in a_list:
+        text = text + l + '-'
+
+    if len(text) < a_size:
+        padding = round((a_size - len(text))/2)
+        text = '-'*padding + text + '-'*padding
+
+    return text[:-1]
+
+
 if __name__ == "__main__":
     print("HK")
 
-
-
-    #'''
-    test_cases = load_road_and_libraries_data("roads_and_libraries_case3.txt")
-    print("loaded data")
-    tt = 0
-    for data in test_cases:
-        start = time.time_ns()
-        res = roads_and_libraries6(data.n, data.clib, data.croad, data.connections)
-        end = time.time_ns()
-        total = ((end - start)/1000000)
-        tt = tt + total
-        print("result:{0}, cities:{1} time:{2}".format(res, data.n, total))
-
-    print("end: {0}".format(tt))
-
-    '''
-    print(roads_and_libraries2(3, 2, 1, ((1, 2), (3, 1), (2, 3))))  # expected 4
-    print(roads_and_libraries2(6, 2, 5, ((1, 3), (3, 4), (2, 4), (1, 2), (2, 3), (5, 6))))  # expected 12
-    roads_and_libraries2(9, 91, 84, ((8, 2), (2, 9)))        # 805
-    roads_and_libraries2(5, 92, 23, ((2,1),(5,3),(5,1), (3,4), (3,1),(5,4),(4,1),(5,2),(4,2))) #184
-    roads_and_libraries2(8, 10, 55, ((6,4),(3,2),(7,1)))#80
-    roads_and_libraries2(1, 5, 3, ())#5
-    roads_and_libraries2(2, 102, 1, ())#204
-    '''
+    t = rangoli(9)
+    for l in t:
+        print(l)
