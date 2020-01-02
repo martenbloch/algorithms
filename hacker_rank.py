@@ -270,9 +270,102 @@ def format(a_list, a_size):
     return text[:-1]
 
 
+def hourglassSum(arr):
+    rows = len(arr)
+    cols = len(arr[0])
+    max_v = -100
+    for i in range(rows):
+        for j in range(cols):
+            s = sum_h(i,j,rows,cols,arr)
+            if s > max_v:
+                max_v = s
+    return max_v
+
+
+def sum_h(x,y,w,h,arr):
+    if x+2 >= w:
+        return -100
+    if y+2 >= h:
+        return -100
+    s = arr[x][y] + arr[x][y+1] + arr[x][y+2] + arr[x+1][y+1] + arr[x+2][y] + arr[x+2][y+1] + arr[x+2][y+2]
+
+    return s
+
+
+def rotate_left(a_list, r):
+    l = len(a_list)
+    r = r % l
+    k = a_list[r:] + a_list[:r]
+    return k
+
+
+class SinglyLinkedListNode:
+
+    def __init__(self, a_data):
+        self.data = a_data
+        self.next = None
+
+    def __repr__(self):
+        return "data:{0}".format(self.data)
+
+
+def mergeLists(head1, head2):
+    head = None
+    tail = None
+
+    if head1.data < head2.data:
+        head = SinglyLinkedListNode(head1.data)
+        head1 = head1.next
+    else:
+        head = SinglyLinkedListNode(head2.data)
+        head2 = head2.next
+
+    tail = head
+
+    while True:
+        if not head1 and not head2:
+            break
+
+        if head1 and not head2:
+            n = SinglyLinkedListNode(head1.data)
+            tail.next = n
+            tail = n
+            head1 = head1.next
+            continue
+
+        if head2 and not head1:
+            n = SinglyLinkedListNode(head2.data)
+            tail.next = n
+            tail = n
+            head2 = head2.next
+            continue
+
+        if head1.data < head2.data:
+            n = SinglyLinkedListNode(head1.data)
+            tail.next = n
+            tail = n
+            head1 = head1.next
+        else:
+            n = SinglyLinkedListNode(head2.data)
+            tail.next = n
+            tail = n
+            head2 = head2.next
+
+    return head
+
+
 if __name__ == "__main__":
     print("HK")
 
-    t = rangoli(9)
-    for l in t:
-        print(l)
+    a1 = SinglyLinkedListNode(1)
+    a2 = SinglyLinkedListNode(2)
+    a3 = SinglyLinkedListNode(3)
+    a1.next = a2
+    a2.next = a3
+
+    b1 = SinglyLinkedListNode(3)
+    b2 = SinglyLinkedListNode(4)
+    b1.next = b2
+
+    head = mergeLists(a1,b1)
+    x=3
