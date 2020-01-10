@@ -354,18 +354,39 @@ def mergeLists(head1, head2):
     return head
 
 
+def remove_duplicates(head):
+    if not head:
+        return
+
+    s = set()
+    s.add(head.data)
+    ptr = head.next
+    prev = head
+
+    while ptr:
+        if ptr.data in s:
+            x = prev
+            x.next = ptr.next
+        else:
+            s.add(ptr.data)
+
+        ptr = ptr.next
+        prev = prev.next
+    return head
+
+
 if __name__ == "__main__":
     print("HK")
 
     a1 = SinglyLinkedListNode(1)
     a2 = SinglyLinkedListNode(2)
-    a3 = SinglyLinkedListNode(3)
+    a3 = SinglyLinkedListNode(2)
+    a4 = SinglyLinkedListNode(3)
+    a5 = SinglyLinkedListNode(4)
     a1.next = a2
     a2.next = a3
+    a3.next = a4
+    a4.next = a5
 
-    b1 = SinglyLinkedListNode(3)
-    b2 = SinglyLinkedListNode(4)
-    b1.next = b2
-
-    head = mergeLists(a1,b1)
+    head = remove_duplicates(a1)
     x=3
