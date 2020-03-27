@@ -1,6 +1,7 @@
 import graph_algorithms
 import time
 import connected_components
+import math
 
 
 def roads_and_libraries(n, c_lib, c_road, cities):
@@ -375,18 +376,44 @@ def remove_duplicates(head):
     return head
 
 
+def is_power_of(num, pow):
+    if pow == 1:
+        return True
+
+    v = 1
+    while v < num:
+        v *= pow
+    return v == num
+
+
+def countTriplets(arr, r):
+    d = dict()
+    for i in range(len(arr)):
+        v = arr[i]
+        if v == 1 or is_power_of(v, r):
+            if v in d:
+                d[v] += 1
+            else:
+                d[v] = 1
+
+    num = 0
+    for k, v in d.items():
+        if r == 1:
+            m = math.factorial(v) / (6 * math.factorial(v - 3))
+            num += m
+        elif d.get(k * r) and d.get(k * r * r):
+            m = v * d[k * r] * d[k * r * r]
+            num += m
+    return int(num)
+
+
 if __name__ == "__main__":
     print("HK")
 
-    a1 = SinglyLinkedListNode(1)
-    a2 = SinglyLinkedListNode(2)
-    a3 = SinglyLinkedListNode(2)
-    a4 = SinglyLinkedListNode(3)
-    a5 = SinglyLinkedListNode(4)
-    a1.next = a2
-    a2.next = a3
-    a3.next = a4
-    a4.next = a5
+    f = open("count_triplets.txt", 'r')
 
-    head = remove_duplicates(a1)
-    x=3
+    nums = f.readlines()
+    nums = [int(i) for i in nums[0].split()]
+    res = countTriplets(nums, 3)
+    print(res)
+
