@@ -1,6 +1,6 @@
 from enum import Enum
 from collections import deque
-import priority_queue as pq
+from . import priority_queue as pq
 import copy
 import time
 
@@ -149,6 +149,16 @@ def breadth_first_search(a_graph, a_source_vertex):
                 queue.append(v)
         info[vertex].color = Color.BLACK
     return info
+
+
+def get_path(bfs_info, vertex):
+    path = [vertex]
+    info = bfs_info[vertex]
+    while info.parent != -1:
+        path.append(info.parent)
+        info = bfs_info[info.parent]
+    path.reverse()
+    return path
 
 
 class BfInfo:
