@@ -1,5 +1,5 @@
-from . import binary_search_insert
-from . import binary_search_tree
+import binary_search_insert
+import binary_search_tree
 
 
 class SortedPriorityQueue:

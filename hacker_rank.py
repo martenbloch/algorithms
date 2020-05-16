@@ -376,44 +376,79 @@ def remove_duplicates(head):
     return head
 
 
-def is_power_of(num, pow):
-    if pow == 1:
-        return True
+class Triplet:
 
-    v = 1
-    while v < num:
-        v *= pow
-    return v == num
+    def __init__(self, a_start_val, a_ratio):
+        self.ratio = a_ratio
+        self.start_val = a_start_val
+        self.mid_val = self.start_val * self.ratio
+        self.end_val = self.start_val * self.ratio * self.ratio
+        self.num_s = 1
+        self.acc = 0
+        self.nn = 0
+
+    def append(self, a_val):
+
+        if a_val == self.mid_val:
+            self.acc += self.num_s
+        elif a_val == self.end_val:
+            self.nn += self.acc
+        elif a_val == self.start_val:
+            self.num_s += 1
+
+
+def get_a0s(val, r):
+    ret = []
+    if val % r == 0:
+        ret.append(int(val/r))
+    else:
+        return ret
+    if ret[0] % r == 0:
+        ret.append(int(ret[0]/r))
+    return ret
 
 
 def countTriplets(arr, r):
-    d = dict()
+
+    if r == 1:
+        d = dict()
+        for i in range(len(arr)):
+            v = arr[i]
+            if v in d:
+                d[v].append(i)
+            else:
+                d[v] = [i]
+
+        num = 0
+        for k, v in d.items():
+            m = 0
+            m = math.factorial(len(v)) / (6 * math.factorial(len(v) - 3))
+            num += m
+        return int(num)
+
+    d = {e: get_a0s(e, r) for e in set(arr)}
+    triplets = {}
+
     for i in range(len(arr)):
         v = arr[i]
-        if v == 1 or is_power_of(v, r):
-            if v in d:
-                d[v] += 1
-            else:
-                d[v] = 1
+
+        for e in d[v]:
+            if e in triplets.keys():
+                triplets[e].append(v)
+
+        if v in triplets:
+            triplets[v].append(v)
+        else:
+            triplets[v] = Triplet(v, r)
 
     num = 0
-    for k, v in d.items():
-        if r == 1:
-            m = math.factorial(v) / (6 * math.factorial(v - 3))
-            num += m
-        elif d.get(k * r) and d.get(k * r * r):
-            m = v * d[k * r] * d[k * r * r]
-            num += m
-    return int(num)
+    for v in triplets.values():
+        num += v.nn
+
+    return num
 
 
 if __name__ == "__main__":
     print("HK")
 
-    f = open("count_triplets.txt", 'r')
-
-    nums = f.readlines()
-    nums = [int(i) for i in nums[0].split()]
-    res = countTriplets(nums, 3)
-    print(res)
 

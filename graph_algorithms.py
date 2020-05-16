@@ -1,6 +1,6 @@
 from enum import Enum
 from collections import deque
-from . import priority_queue as pq
+import priority_queue as pq
 import copy
 import time
 
