@@ -2,7 +2,7 @@ import graph_algorithms
 import time
 import connected_components
 import math
-
+from enum import Enum
 
 def roads_and_libraries(n, c_lib, c_road, cities):
     g = graph_algorithms.UnweightedGraph(cities)
@@ -446,6 +446,52 @@ def countTriplets(arr, r):
         num += v.nn
 
     return num
+
+
+class Dir(Enum):
+    LEFT = 0
+    RIGHT = 1
+    UP = 2
+    DOWN = 3
+    LEFT_UP = 4
+    LEFT_DOWN = 5
+    RIGHT_UP = 6
+    RIGHT_DOWN = 7
+
+
+def queensAttack(n, k, y, x, obstacles):
+    num_squares = [0 for i in range(8)]
+    num_squares[Dir.LEFT.value] = x - 1
+    num_squares[Dir.RIGHT.value] = n - x
+    num_squares[Dir.UP.value] = n - y
+    num_squares[Dir.DOWN.value] = y - 1
+    num_squares[Dir.LEFT_UP.value] = min(x - 1, n - y)
+    num_squares[Dir.LEFT_DOWN.value] = min(x - 1, y - 1)
+    num_squares[Dir.RIGHT_UP.value] = min(n - x, n - y)
+    num_squares[Dir.RIGHT_DOWN.value] = min(n - x, y - 1)
+
+    if k == 0:
+        return sum(num_squares)
+    else:
+        for oy, ox in obstacles:
+            if y == oy and ox < x:
+                num_squares[Dir.LEFT.value] = min(num_squares[Dir.LEFT.value], x - ox - 1)
+            elif y == oy and ox > x:
+                num_squares[Dir.RIGHT.value] = min(num_squares[Dir.RIGHT.value], ox - x - 1)
+            elif x == ox and oy > y:
+                num_squares[Dir.UP.value] = min(num_squares[Dir.UP.value], oy - y - 1)
+            elif x == ox and oy < y:
+                num_squares[Dir.DOWN.value] = min(num_squares[Dir.DOWN.value], y - oy - 1)
+            elif ox > x and oy < y and ox-x == y-oy:
+                num_squares[Dir.RIGHT_DOWN.value] = min(num_squares[Dir.RIGHT_DOWN.value], min(ox - x, y - oy) -1)
+            elif ox > x and oy > y and ox-x == oy-y:
+                num_squares[Dir.RIGHT_UP.value] = min(num_squares[Dir.RIGHT_UP.value], min(ox - x, oy - y) - 1)
+            elif ox < x and oy < y and x-ox == y-oy:
+                num_squares[Dir.LEFT_DOWN.value] = min(num_squares[Dir.LEFT_DOWN.value], min(x - ox, y - oy) - 1)
+            elif ox < x and oy > y and x-ox == oy-y:
+                num_squares[Dir.LEFT_UP.value] = min(num_squares[Dir.LEFT_UP.value], min(x - ox, oy - y) - 1)
+
+    return sum(num_squares)
 
 
 if __name__ == "__main__":
