@@ -3,6 +3,7 @@ import time
 import connected_components
 import math
 from enum import Enum
+import math
 
 def roads_and_libraries(n, c_lib, c_road, cities):
     g = graph_algorithms.UnweightedGraph(cities)
@@ -492,6 +493,64 @@ def queensAttack(n, k, y, x, obstacles):
                 num_squares[Dir.LEFT_UP.value] = min(num_squares[Dir.LEFT_UP.value], min(x - ox, oy - y) - 1)
 
     return sum(num_squares)
+
+
+def split(m, w, amount):
+    diff = m - w
+    if diff < 0:
+        if amount <= abs(diff):
+            m += amount
+        else:
+            m += abs(diff)
+            r = amount - abs(diff)
+            m += r // 2
+            w += r - r // 2
+    else:
+        if amount <= abs(diff):
+            w += amount
+        else:
+            w += abs(diff)
+            r = amount - abs(diff)
+            w += r // 2
+            m += r - r // 2
+
+    return m, w
+
+
+def minimumPasses(m, w, p, n):
+    tc = 0
+    passes = 0
+    l = 0
+    min_pass_acc = []
+    print("")
+    while tc < n:
+        tc = m * w + l
+        min_pass_acc.append(((n - l) / (m * w)) + passes)
+
+        amount = tc // p
+        if amount != 0:
+            m, w = split(m, w, amount)
+            l = tc - amount * p
+            passes += 1
+        else:
+            np = math.floor((p - l)/(m*w))
+            if (p - l) % (m*w) == 0:
+                np -= 1
+            l = np * m * w + l
+            passes += np
+            pass
+
+        if tc >= n:
+            m_p = int(math.ceil(min(min_pass_acc)))
+            if m_p == 0:
+                m_p = 1
+            if m_p < passes:
+                return m_p
+            else:
+                return passes
+        #l = tc - amount * p
+        #print("pass:{}, m:{} w:{}, l:{}".format(passes, m, w, l))
+    return passes
 
 
 if __name__ == "__main__":

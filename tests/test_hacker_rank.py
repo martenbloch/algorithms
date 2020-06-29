@@ -200,3 +200,53 @@ def test_queens_attack_05():
     #plt.show()
 
     assert hacker_rank.queensAttack(100, 100, 48, 81, obstacles) == 40
+
+
+def test_make_candies_01():
+
+    assert hacker_rank.minimumPasses(1, 2, 1, 60) == 4
+
+
+def test_make_candies_02():
+
+    assert hacker_rank.minimumPasses(3, 1, 2, 12) == 3
+
+
+def test_make_candies_03():
+
+    assert hacker_rank.minimumPasses(1, 1, 6, 45) == 16
+
+
+def test_make_candies_04():
+
+    assert hacker_rank.minimumPasses(1, 1, 1000000000000, 1000000000000) == 1000000000000
+
+
+def test_make_candies_05():
+
+    assert hacker_rank.minimumPasses(5361, 3918, 8447708, 989936375520) == 3577
+
+
+def test_make_candies_06():
+
+    assert hacker_rank.minimumPasses(5184889632, 5184889632, 20, 10000) == 1
+
+
+def test_make_candies_07():
+        assert hacker_rank.minimumPasses(1, 100, 10000000000, 1000000000000) == 617737754
+
+
+def test_make_candies_08():
+    assert hacker_rank.minimumPasses(1, 1, 499999999999, 1000000000000) == 999999999999
+
+
+def test_make_candies_09():
+    assert hacker_rank.minimumPasses(3, 13, 13, 1000000000000) == 10
+
+
+def test_make_candies_10():
+    assert hacker_rank.minimumPasses(1, 1, 400000000000, 1000000000000) == 850000000000
+
+
+def test_make_candies_11():
+    assert hacker_rank.minimumPasses(1, 3, 92, 373) == 88
